@@ -1,0 +1,33 @@
+apiVersion: apps/v1 # Usa apps/v1beta2 para versiones anteriores a 1.9.0
+kind: Deployment
+metadata:
+  name: dotnet-deployment
+  labes:
+    app: dotnetapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dotnetapp
+  templates:
+    metadata:
+      labels:
+        app: dotnetapp
+    spec:
+      containers:
+      - name: dotnetapp
+        image: keyronguillen/akskeyron:latest
+        ports:
+        - containerPort:80
+        
+---
+apiVersion: app/v1
+kind: Service
+metada:
+  name: akskeyron
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: dotnetapp
